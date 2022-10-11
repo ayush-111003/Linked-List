@@ -1,0 +1,127 @@
+#include<bits/stdc++.h>
+using namespace std;
+//Doubly linked list
+struct node
+{
+    node *prev;
+    int data;
+    node *next;
+}*first =NULL;
+void create(int A[],int n)
+{
+    node *t =new node;
+    node *last ;
+    t->prev = NULL;
+    t->data=A[0];
+    t->next= NULL;
+    last = first = t;
+    for (int i = 1; i < n; i++)
+    {
+        node *t = new node;
+        t->prev = last;
+        t->data=A[i];
+        t->next= NULL;
+        last->next = t;
+        last = t;
+    }
+}
+int Length(struct node *p)
+{
+    int len=0;
+    while (p)
+    {
+        len++;
+        p=p->next;
+    }
+    return len;
+    
+}
+void Insert(struct node *p,int index,int x)
+{
+    struct node *t;
+    if(index<0||index>Length(p))
+        return;
+    if(index==0)
+    {
+        t=new node;
+        t->data=x;
+        t->prev=NULL;
+        t->next=first;
+        first->prev=t;
+        first=t;
+    }
+    else
+    {
+        for (int i = 0; i < index - 1; i++)
+        {
+            p=p->next;
+        }
+        t= new node;
+        t->prev=p;
+        t->data=x;
+        t->next = p->next;
+        if(p->next)p->next->prev=t;
+        p->next=t;   
+    }
+}
+int Delete(struct node *p,int pos)
+{   
+    int x = -1;
+    if(pos<1||pos>Length(p))
+        return -1;
+    if(pos==1)
+    {
+        first = first->next;
+        x=first->data;
+        delete p;
+        if(first->next)
+            first->prev=NULL;
+    }
+    else
+    {
+        for (int i = 0; i < pos - 1; i++)
+        {
+            p=p->next;
+        }
+        x = p->data;
+        p->prev->next=p->next;
+        if(p->next)
+            p->next->prev = p->prev;
+        delete p;
+        
+    }
+}
+void Reverse(struct node *p)
+{
+    struct node *tmp ;
+    while (p)
+    {
+        tmp = p->next;
+        p->next = p->prev;
+        p->prev = tmp;
+        p=p->prev;
+        if(p && p->next==NULL)
+            first = p;
+    }
+       
+}
+void display(struct node *p)
+{
+    while (p)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+    
+}
+int main()
+{
+    int A[] = {10,20,30,40,50};
+    create(A,5);
+    
+    // Insert(first,6,25);
+    // Delete(first,3);
+    Reverse(first);
+    display(first);
+    return 0 ;
+}
