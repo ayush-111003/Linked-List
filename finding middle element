@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+//linear linked list
+struct node
+{
+    int data;
+    struct node *next;
+}*first =NULL,*second =NULL,*third=NULL;
+void create(int A[],int n)
+{
+    int i;
+    struct node *t,*last;
+    first = new node;
+    first ->data =A[0];
+    first ->next = NULL;
+    last = first;
+
+    for ( i = 1; i < n; i++)
+    {
+        t =new node;
+        t->data =A[i];
+        t->next= NULL;
+        last->next=t;
+        last = t;
+    }
+    
+}
+int mid_num(node *p)
+{
+    node *q;
+    p = q = first;
+    while (q)
+    {
+        q = q->next;
+        if(q)q = q->next;
+        if(q)p=p->next;
+
+    }
+    return p->data;
+
+}
+int main()
+{
+    int A[] = {22,26,27,28,29,31,32};
+    create(A,7);
+    cout<<mid_num(first);
+    return 0;
+}
